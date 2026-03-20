@@ -9,10 +9,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Version 1.0
  * @Description TODO
  */
-@SpringBootApplication
+//@SpringBootApplication
 public class DemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class);
+//        SpringApplication.run(DemoApplication.class);
+        for (int i = 10001; i < 110001; i++) {
+            System.out.println(i);
+        }
     }
+
 }
