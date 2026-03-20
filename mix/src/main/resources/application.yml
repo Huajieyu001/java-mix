@@ -3,3 +3,5 @@ spring:
     host: 192.168.101.128
     port: 6379
     password: 123456
+
+

@@ -33,4 +33,12 @@ public class CouponController {
         }
         couponService.getCoupon(userId, couponId);
     }
+
+    @GetMapping("/getCouponWithLock")
+    public void getCouponWithLock(Integer userId, Integer couponId){
+        if(couponId == null || userId == null){
+            throw new RuntimeException("<UNK>");
+        }
+        couponService.getCouponWithLock(userId, couponId);
+    }
 }

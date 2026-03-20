@@ -12,5 +12,7 @@ public class RedisConstants {
 
     public static final String COUPON_SUCCESS_LIST_PREFIX = "COUPON:SUCCESS:LIST:";
 
-    public static final String COUPON_STOCK_PREFIX = "COUPON:STOCK";
+    public static final String COUPON_STOCK_KEY = "COUPON:STOCK";
+
+    public static final String COUPON_LOCK_PREFIX = "COUPON:LOCK:";
 }

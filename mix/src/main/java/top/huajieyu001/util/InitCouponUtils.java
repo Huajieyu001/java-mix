@@ -24,6 +24,6 @@ public class InitCouponUtils {
     public void initCoupon(int couponId, int stock) {
         String hashKey = couponId + "";
         log.info("hashKey is {}, stock is {}", hashKey, stock);
-        redisTemplate.opsForHash().put(RedisConstants.COUPON_STOCK_PREFIX, hashKey, stock);
+        redisTemplate.opsForHash().put(RedisConstants.COUPON_STOCK_KEY, hashKey, stock);
     }
 }
