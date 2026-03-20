@@ -3,7 +3,12 @@ package top.huajieyu001.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import top.huajieyu001.RedisConstants;
@@ -92,14 +97,30 @@ public class CouponServiceImpl implements CouponService {
                 return;
             }
 
-            // 扣减库存
-            redisTemplate.opsForHash().increment(RedisConstants.COUPON_STOCK_KEY, couponIdStr, -1);
+//            // 扣减库存
+//            redisTemplate.opsForHash().increment(RedisConstants.COUPON_STOCK_KEY, couponIdStr, -1);
+//
+//            // 插入抢券成功列表
+//            redisTemplate.opsForHash().put(RedisConstants.COUPON_SUCCESS_LIST_PREFIX + couponIdStr, userIdStr, 1);
+//
+//            // 插入同步队列
+//            redisTemplate.opsForHash().putIfAbsent(RedisConstants.COUPON_SYNC_QUEUE_KEY, userIdStr, couponId);
+//
+            redisTemplate.executePipelined(new SessionCallback<Integer>() {
+                @Override
+                public Integer execute(RedisOperations operations) throws DataAccessException {
+                    // 扣减库存
+                    operations.opsForHash().increment(RedisConstants.COUPON_STOCK_KEY, couponIdStr, -1L);
 
-            // 插入抢券成功列表
-            redisTemplate.opsForHash().put(RedisConstants.COUPON_SUCCESS_LIST_PREFIX + couponIdStr, userIdStr, 1);
+                    // 插入抢券成功列表
+                    operations.opsForHash().put(RedisConstants.COUPON_SUCCESS_LIST_PREFIX + couponIdStr, userIdStr, 1);
 
-            // 插入同步队列
-            redisTemplate.opsForHash().putIfAbsent(RedisConstants.COUPON_SYNC_QUEUE_KEY, userIdStr, couponIdStr);
+                    // 插入同步队列
+                    operations.opsForHash().putIfAbsent(RedisConstants.COUPON_SYNC_QUEUE_KEY, userIdStr, couponId);
+                    return null;
+                }
+            });
+            
         } finally {
             lock.unlock();
         }
