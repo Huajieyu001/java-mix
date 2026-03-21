@@ -1,6 +1,8 @@
 package top.huajieyu001.advice;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.huajieyu001.exception.RateLimitException;
 
@@ -17,6 +19,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RateLimitException.class)
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
     public Object handleRateLimitException(RateLimitException e) {
         Map<String, Object> result = new HashMap<>();
         result.put("message", e.getMessage());
