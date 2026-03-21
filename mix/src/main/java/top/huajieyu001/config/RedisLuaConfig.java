@@ -30,4 +30,28 @@ public class RedisLuaConfig {
         script.setResultType(Integer.class);
         return script;
     }
+
+    @Bean
+    public DefaultRedisScript<Long> lockLuaScript() {
+        DefaultRedisScript<Long> script = new DefaultRedisScript<>();
+        script.setScriptSource(new ResourceScriptSource(new ClassPathResource("/lua/lock.lua")));
+        script.setResultType(Long.class);
+        return script;
+    }
+
+    @Bean
+    public DefaultRedisScript<Long> unlockLuaScript() {
+        DefaultRedisScript<Long> script = new DefaultRedisScript<>();
+        script.setScriptSource(new ResourceScriptSource(new ClassPathResource("/lua/unlock.lua")));
+        script.setResultType(Long.class);
+        return script;
+    }
+
+    @Bean
+    public DefaultRedisScript<Long> watchDogLuaScript() {
+        DefaultRedisScript<Long> script = new DefaultRedisScript<>();
+        script.setScriptSource(new ResourceScriptSource(new ClassPathResource("/lua/watchDog.lua")));
+        script.setResultType(Long.class);
+        return script;
+    }
 }
