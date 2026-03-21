@@ -48,7 +48,8 @@ public class LockController {
 
     @GetMapping("/multiLock")
     public String multiLock(String key) {
-        RLock lock = redisson.getLock(key);
+//        RLock lock = redisson.getLock(key);
+        MyLock lock = new MyLock(redisTemplate, lockLuaScript, unlockLuaScript, watchDogLuaScript, key);
 //        lock.tryLock(1, 2, TimeUnit.SECONDS)
         try{
             lock.lock();
