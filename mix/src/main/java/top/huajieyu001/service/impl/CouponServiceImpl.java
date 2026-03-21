@@ -106,6 +106,9 @@ public class CouponServiceImpl implements CouponService {
 //            // 插入同步队列
 //            redisTemplate.opsForHash().putIfAbsent(RedisConstants.COUPON_SYNC_QUEUE_KEY, userIdStr, couponId);
 //
+            /**
+             * 使用pipeline优化多条命令
+             */
             redisTemplate.executePipelined(new SessionCallback<Integer>() {
                 @Override
                 public Integer execute(RedisOperations operations) throws DataAccessException {
@@ -120,7 +123,7 @@ public class CouponServiceImpl implements CouponService {
                     return null;
                 }
             });
-            
+
         } finally {
             lock.unlock();
         }
