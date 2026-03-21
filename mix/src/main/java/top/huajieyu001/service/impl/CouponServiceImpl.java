@@ -37,7 +37,7 @@ public class CouponServiceImpl implements CouponService {
     private RedisTemplate redisTemplate;
 
     @Resource
-    private DefaultRedisScript<Integer> couponRedisScript;
+    private DefaultRedisScript<Integer> couponLuaScript;
 
     @Resource
     private RedissonClient redissonClient;
@@ -50,7 +50,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public void getCoupon(Integer userId, Integer couponId) {
         List<String> list = Arrays.asList(RedisConstants.COUPON_SYNC_QUEUE_KEY, RedisConstants.COUPON_STOCK_KEY, RedisConstants.COUPON_SUCCESS_LIST_PREFIX + couponId);
-        Object result = redisTemplate.execute(couponRedisScript, list, couponId, userId);
+        Object result = redisTemplate.execute(couponLuaScript, list, couponId, userId);
 
         if (result == null) {
             throw new RuntimeException("<UNK>");

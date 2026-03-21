@@ -22,4 +22,12 @@ public class RedisLuaConfig {
         script.setResultType(Integer.class);
         return script;
     }
+
+    @Bean
+    public DefaultRedisScript<Integer> rateLimitLuaScript() {
+        DefaultRedisScript<Integer> script = new DefaultRedisScript<>();
+        script.setScriptSource(new ResourceScriptSource(new ClassPathResource("/lua/rateLimit.lua")));
+        script.setResultType(Integer.class);
+        return script;
+    }
 }
