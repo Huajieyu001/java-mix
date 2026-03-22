@@ -5,11 +5,38 @@ spring:
     password: 123456
   main:
     allow-circular-references: true
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.101.128:3306/mix?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
+#    username: root
+#    password: 123456
+
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.101.128:3306/mix?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
-    username: root
-    password: 123456
+#    master:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://192.168.101.128:3306/mix?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
+#      username: root
+#      password: 123456
+#    backup:
+#      driver-class-name: org.postgresql.Driver
+#      url: jdbc:postgresql://192.168.101.128:5432/post_back
+#      username: postgres
+#      password: 123456
+    dynamic:
+      primary: master
+      strict: false
+      p6spy: false
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://192.168.101.128:3306/mix?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
+          username: root
+          password: 123456
+        slave:
+          driver-class-name: org.postgresql.Driver
+          url: jdbc:postgresql://192.168.101.128:5432/post_back
+          username: postgres
+          password: 123456
 
 server:
   port: 8888
