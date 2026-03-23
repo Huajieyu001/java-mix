@@ -1,10 +1,9 @@
 package top.huajieyu001.util;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import top.huajieyu001.RedisConstants;
+import top.huajieyu001.constants.RedisConstants;
 
 import javax.annotation.Resource;
 

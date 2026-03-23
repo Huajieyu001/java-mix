@@ -1,4 +1,4 @@
-package top.huajieyu001;
+package top.huajieyu001.constants;
 
 /**
  * @Author huajieyu
