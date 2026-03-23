@@ -49,7 +49,6 @@ public class Application {
         CountDownLatch countDownLatch = new CountDownLatch(100);
         TransferAccountService transferAccountService = new TransferAccountService();
 
-        List<Thread> threads = new ArrayList<Thread>();
         System.out.println("start");
         for (int i = 0; i < 50; i++) {
             new Thread(()->{
@@ -61,43 +60,6 @@ public class Application {
         for (int i = 0; i < 50; i++) {
             new Thread(()->{
                 transferAccountService.transfer(account2, account1, 1);
-                countDownLatch.countDown();
-            }).start();
-        }
-
-        try {
-            countDownLatch.await();
-            System.out.println("end");
-            System.out.println(account1);
-            System.out.println(account2);
-            System.out.println(account1.getBalance() + account2.getBalance());
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void testV2(){
-        AccountV2 account1 = new AccountV2(1000);
-        AccountV2 account2 = new AccountV2(1000);
-
-        CountDownLatch countDownLatch = new CountDownLatch(100);
-        TransferAccountService transferAccountService = new TransferAccountService();
-        TransferAccountService transferAccountService2 = new TransferAccountService();
-
-
-
-        List<Thread> threads = new ArrayList<Thread>();
-        System.out.println("start");
-        for (int i = 0; i < 50; i++) {
-            new Thread(()->{
-                transferAccountService.transferV2(account1, account2, 1);
-                countDownLatch.countDown();
-            }).start();
-        }
-
-        for (int i = 0; i < 50; i++) {
-            new Thread(()->{
-                transferAccountService2.transferV2(account2, account1, 1);
                 countDownLatch.countDown();
             }).start();
         }
